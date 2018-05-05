@@ -1,16 +1,15 @@
 import java.io.*;
 import java.util.*;
 
+
 public class Book {
 	private String title;
 	private String author;
-	//private BufferedReader bookFile;
 	private String bookPath;
 	
-	// I think I got the name's right...
-	public HashSet<String> wordSet; 			// Gordon
-	public HashMap<String, Integer> wordCount; // Cassie
-	public ArrayList<String> wordList;			// Din
+	public HashSet<String> wordSet;
+	public HashMap<String, Integer> wordCount;
+	public ArrayList<String> wordList;
 	
 	public Book(String bookPath) {
 		wordSet = new HashSet<String>();
@@ -69,12 +68,7 @@ public class Book {
 	// Reads the author from the book and stores it in author.
 	private void setAuthor() {
 		Scanner bookScanner;
-		try {
-			bookScanner = new Scanner(new BufferedReader(new FileReader(bookPath)));
-		} catch(FileNotFoundException e) {
-			bookScanner = new Scanner("");
-			System.out.println("Error: FileNotFoundException");
-		}
+		bookScanner = getScanner();
 		
 		// Skip title and blank line
 		bookScanner.nextLine();
