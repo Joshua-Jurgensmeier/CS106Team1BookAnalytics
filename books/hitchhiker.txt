@@ -1,7 +1,11 @@
-The Hitch Hiker's Guide to the Galaxy 
+Title: The Hitch Hiker's Guide to the Galaxy
+
+Author: Douglas Adams
+
+***BEGIN BOOK***
 
 for Jonny Brock and Clare Gorst 
-and all other Arlingtoniansfor tea, sympathy, and a sofa
+and all other Arlingtonians for tea, sympathy, and a sofa
 
 
 
@@ -7366,7 +7370,3 @@ some parts of the Galaxy. The other kids at school nicknamed  him
 Ix,  which  in the language of Betelgeuse Five translates as "boy
 who is not able satisfactorily to explain what a  Hrung  is,  nor
 why it should choose to collapse on Betelgeuse Seven".
-
-
-
-

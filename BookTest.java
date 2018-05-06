@@ -1,12 +1,13 @@
 /*
  * For testing code.
  */
+import java.io.File;
 import java.io.FileNotFoundException;
 
 public class BookTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		Book poeBook = new Book("TeamProject/X-ingAParagrab.txt");
+		Book poeBook = new Book(new File("./books/2000league.txt"));
 			
 		poeBook.generateWordCount();
 		poeBook.generateWordList();

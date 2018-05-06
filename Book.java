@@ -5,19 +5,19 @@ import java.util.*;
 public class Book {
 	private String title;
 	private String author;
-	private String bookPath;
+	private File bookFile;
 	
 	public HashSet<String> wordSet;
 	public HashMap<String, Integer> wordCount;
 	public ArrayList<String> wordList;
 	
-	public Book(String bookPath) {
+	public Book(File bookFile) {
 		wordSet = new HashSet<String>();
 		wordCount = new HashMap<String, Integer>();
 		wordList = new ArrayList<String>();
-		this.bookPath = bookPath;
+		this.bookFile = bookFile;
 		setTitle();
-		System.out.println(title);
+		//System.out.println(title);
 		setAuthor();
 	}
 	
@@ -29,10 +29,13 @@ public class Book {
 	public Scanner getScanner() {
 		Scanner bookScanner;
 		try {
-			bookScanner = new Scanner(new BufferedReader(new FileReader(bookPath)));
+			bookScanner = new Scanner(new BufferedReader(new InputStreamReader(new FileInputStream(bookFile), "UTF-8")));
 		} catch(FileNotFoundException e) {
 			bookScanner = new Scanner("");
-			System.out.println("Error: FileNotFoundException");
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			bookScanner = new Scanner("");
+			e.printStackTrace();
 		}
 		return bookScanner;
 	}
@@ -75,7 +78,7 @@ public class Book {
 		bookScanner.nextLine();
 		
 		String line = bookScanner.nextLine();
-		title = line.replaceFirst("Author: ", "");
+		author = line.replaceFirst("Author: ", "");
 		bookScanner.close();
 	}
 	
