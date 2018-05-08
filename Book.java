@@ -82,26 +82,9 @@ public class Book {
 		bookScanner.close();
 	}
 	
-	// An example to help you get started:
-	// Prints the first line of the actual text.
-	public void printFirstLine() {
-		Scanner bookScanner = getScannerAtFirstLine();
-		String firstLine = bookScanner.nextLine();
-		System.out.println(firstLine);
-	}
-	
-	public void printLastLine() {
-		Scanner bookScanner = getScannerAtFirstLine();
-		String lastLine = "";
-		while(bookScanner.hasNextLine()) {
-			lastLine = bookScanner.nextLine();
-		}
-		System.out.println(lastLine);
-	}
-	
 	public String nextWord(Scanner bookScanner) {  
 		//gets word from the file and removes punctuation
-		return bookScanner.next().replaceAll("[^a-zA-Z-]", ""); 
+		return bookScanner.next().replaceAll("[^a-zA-Z-]", "").toLowerCase(); 
 	}
 	
 	public void generateWordCount() { 
@@ -122,6 +105,7 @@ public class Book {
 	
     public void generateWordSet() { 
     	Scanner bookScanner = getScannerAtFirstLine();
+    	// Add if wordList exists                     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         while(bookScanner.hasNext()) { 
         	wordSet.add(nextWord(bookScanner)); //adds word into the set 
         }
@@ -136,4 +120,34 @@ public class Book {
     		wordList.add(nextWord(bookScanner)); //adds word into the list
     	}
     }
+    
+    public int getTotalWordCount() {
+    	return wordList.size();
+    }
+    
+    public double percentWordCounter(String search) { 
+    	try {
+    		// Calculates the ratio, rounds decimal places and then scales the decimal to a percent
+    		return Math.round(((double) wordCount.get(search) / getTotalWordCount()) * 1000.0)/10.0;
+    	} catch(NullPointerException e) {
+    		return 0;
+    	}
+    }
+    
+    // An example to help you get started:
+ 	// Prints the first line of the actual text.
+ 	public void printFirstLine() {
+ 		Scanner bookScanner = getScannerAtFirstLine();
+ 		String firstLine = bookScanner.nextLine();
+ 		System.out.println(firstLine);
+ 	}
+ 	
+ 	public void printLastLine() {
+ 		Scanner bookScanner = getScannerAtFirstLine();
+ 		String lastLine = "";
+ 		while(bookScanner.hasNextLine()) {
+ 			lastLine = bookScanner.nextLine();
+ 		}
+ 		System.out.println(lastLine);
+ 	}
 }

@@ -12,11 +12,17 @@ public class BookTest {
 		poeBook.generateWordCount();
 		poeBook.generateWordList();
 		poeBook.generateWordSet();
-		System.out.println("Count");
-		System.out.println(poeBook.wordCount);
-		System.out.println("List");
-		System.out.println(poeBook.wordList);
-		System.out.println("Set");
-		System.out.println(poeBook.wordSet);
+//		System.out.println("Count");
+//		System.out.println(poeBook.wordCount);
+//		System.out.println("List");
+//		System.out.println(poeBook.wordList);
+//		System.out.println("Set");
+//		System.out.println(poeBook.wordSet);
+		
+		System.out.println(poeBook.getTotalWordCount());
+		System.out.println(poeBook.wordCount.get("bob"));
+		System.out.println(poeBook.percentWordCounter("bob"));
+		System.out.println(poeBook.wordCount.get("the"));
+		System.out.println(poeBook.percentWordCounter("the"));
 	}
 }
