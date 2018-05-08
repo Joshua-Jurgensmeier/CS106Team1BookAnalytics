@@ -17,7 +17,6 @@ public class Book {
 		wordList = new ArrayList<String>();
 		this.bookFile = bookFile;
 		setTitle();
-		//System.out.println(title);
 		setAuthor();
 	}
 	
@@ -87,45 +86,64 @@ public class Book {
 		return bookScanner.next().replaceAll("[^a-zA-Z-]", "").toLowerCase(); 
 	}
 	
-	public void generateWordCount() { 
-		Scanner bookScanner = getScannerAtFirstLine(); 
-		String word;
-
-		while(bookScanner.hasNext()) { 
-
-			word = nextWord(bookScanner); 
+	// Generates the wordCount map if it is empty
+	public void ensureWordCount() { 
+		if(wordCount.isEmpty()) {
+			Scanner bookScanner = getScannerAtFirstLine(); 
+			String word;
 	
-			if(wordCount.containsKey(word)){
-				wordCount.put(word, wordCount.get(word) + 1); 
-			} else { 
-				wordCount.put(word, 1); 
+			while(bookScanner.hasNext()) { 
+	
+				word = nextWord(bookScanner); 
+		
+				if(wordCount.containsKey(word)){
+					wordCount.put(word, wordCount.get(word) + 1); 
+				} else { 
+					wordCount.put(word, 1); 
+				}
 			}
 		}
 	}
 	
-    public void generateWordSet() { 
-    	Scanner bookScanner = getScannerAtFirstLine();
-    	// Add if wordList exists                     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        while(bookScanner.hasNext()) { 
-        	wordSet.add(nextWord(bookScanner)); //adds word into the set 
-        }
-    } 
-
-    public void generateWordList() {
-    	Scanner bookScanner = getScannerAtFirstLine();
-    	//Traverses through the text file, and removes 
-    	//punctuation and adds each word to the list.
-    	while(bookScanner.hasNext())
-    	{
-    		wordList.add(nextWord(bookScanner)); //adds word into the list
+	// Generates the wordSet if it is empty
+    public void ensureWordSet() {
+    	if(wordSet.isEmpty()) {
+	    	Scanner bookScanner = getScannerAtFirstLine();
+	    	// Add if wordList exists                     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	        while(bookScanner.hasNext()) { 
+	        	wordSet.add(nextWord(bookScanner)); //adds word into the set 
+	        }
     	}
     }
     
+    // Generates the wordList if it is empty
+    public void ensureWordList() {
+    	if(wordList.isEmpty()) {
+    		Scanner bookScanner = getScannerAtFirstLine();
+        	//Traverses through the text file, and removes 
+        	//punctuation and adds each word to the list.
+        	while(bookScanner.hasNext())
+        	{
+        		wordList.add(nextWord(bookScanner)); //adds word into the list
+        	}
+    	}
+    }
+    
+    // Requires wordList
     public int getTotalWordCount() {
+    	ensureWordList();
     	return wordList.size();
     }
     
-    public double percentWordCounter(String search) { 
+    // Requires wordSet
+    public int getUniqueWordCount() {
+    	ensureWordSet();
+    	return wordSet.size();
+    }
+    
+    // Requires wordCount
+    public double percentWord(String search) {
+    	ensureWordCount();
     	try {
     		// Calculates the ratio, rounds decimal places and then scales the decimal to a percent
     		return Math.round(((double) wordCount.get(search) / getTotalWordCount()) * 1000.0)/10.0;
