@@ -12,10 +12,12 @@ public class Book {
 	public ArrayList<String> wordList;
 	
 	public Book(File bookFile) {
+		// Data structures are not generated until they are needed.
 		wordSet = new HashSet<String>();
 		wordCount = new HashMap<String, Integer>();
 		wordList = new ArrayList<String>();
 		this.bookFile = bookFile;
+		// Get title and author from file.
 		setTitle();
 		setAuthor();
 	}
@@ -28,11 +30,9 @@ public class Book {
 	public Scanner getScanner() {
 		Scanner bookScanner;
 		try {
+			// Slightly rediculous, yet necessary way to get a utf-8 scanner of .txt file
 			bookScanner = new Scanner(new BufferedReader(new InputStreamReader(new FileInputStream(bookFile), "UTF-8")));
-		} catch(FileNotFoundException e) {
-			bookScanner = new Scanner("");
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
+		} catch(FileNotFoundException | UnsupportedEncodingException e) {
 			bookScanner = new Scanner("");
 			e.printStackTrace();
 		}
@@ -82,24 +82,41 @@ public class Book {
 	}
 	
 	public String nextWord(Scanner bookScanner) {  
-		//gets word from the file and removes punctuation
+		//gets next word from the file, removes punctuation, and lowers case.
 		return bookScanner.next().replaceAll("[^a-zA-Z-]", "").toLowerCase(); 
 	}
 	
 	// Generates the wordCount map if it is empty
-	public void ensureWordCount() { 
+	public void ensureWordCount() {
 		if(wordCount.isEmpty()) {
-			Scanner bookScanner = getScannerAtFirstLine(); 
-			String word;
-	
-			while(bookScanner.hasNext()) { 
-	
-				word = nextWord(bookScanner); 
+			if(!wordList.isEmpty()) {
+				// Generate wordCount from wordList
+				String word;
+				Iterator<String> itr = wordList.iterator();
+
+				while (itr.hasNext()) {
+					word = itr.next();
+					if (wordCount.containsKey(word)) {
+						wordCount.put(word, wordCount.get(word) + 1);
+					} else {
+						wordCount.put(word, 1);
+					}
+				}
+				System.out.println(wordCount);
+			} else {
+				// Generate wordCount from scanner
+				Scanner bookScanner = getScannerAtFirstLine(); 
+				String word;
 		
-				if(wordCount.containsKey(word)){
-					wordCount.put(word, wordCount.get(word) + 1); 
-				} else { 
-					wordCount.put(word, 1); 
+				while(bookScanner.hasNext()) { 
+		
+					word = nextWord(bookScanner); 
+			
+					if(wordCount.containsKey(word)){
+						wordCount.put(word, wordCount.get(word) + 1); 
+					} else { 
+						wordCount.put(word, 1); 
+					}
 				}
 			}
 		}
@@ -108,11 +125,20 @@ public class Book {
 	// Generates the wordSet if it is empty
     public void ensureWordSet() {
     	if(wordSet.isEmpty()) {
-	    	Scanner bookScanner = getScannerAtFirstLine();
-	    	// Add if wordList exists                     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	        while(bookScanner.hasNext()) { 
-	        	wordSet.add(nextWord(bookScanner)); //adds word into the set 
-	        }
+    		if(!wordList.isEmpty()) {
+    			// Generate wordSet with wordList
+    			wordSet = new HashSet<String>(wordList);
+    			
+    		} else if(!wordCount.isEmpty()) {
+    			// Generate wordSet with wordCount map
+    			wordSet = new HashSet<String>(wordCount.keySet());
+    			
+    		} else {
+		    	Scanner bookScanner = getScannerAtFirstLine();
+		        while(bookScanner.hasNext()) { 
+		        	wordSet.add(nextWord(bookScanner)); //adds word into the set 
+		        }
+    		}   
     	}
     }
     
@@ -142,6 +168,16 @@ public class Book {
     }
     
     // Requires wordCount
+    public int countWord(String search) {
+    	ensureWordCount();
+		if(wordCount.containsKey(search)) {
+			return wordCount.get(search);
+		} else {
+			return 0;
+    	}
+    }
+    
+    // Requires wordCount
     public double percentWord(String search) {
     	ensureWordCount();
     	try {
@@ -152,20 +188,30 @@ public class Book {
     	}
     }
     
-    // An example to help you get started:
- 	// Prints the first line of the actual text.
- 	public void printFirstLine() {
- 		Scanner bookScanner = getScannerAtFirstLine();
- 		String firstLine = bookScanner.nextLine();
- 		System.out.println(firstLine);
- 	}
- 	
- 	public void printLastLine() {
- 		Scanner bookScanner = getScannerAtFirstLine();
- 		String lastLine = "";
- 		while(bookScanner.hasNextLine()) {
- 			lastLine = bookScanner.nextLine();
- 		}
- 		System.out.println(lastLine);
- 	}
+    // Loops through book, prints a copy of wordList with oldWord replaced with newWord
+    public void replaceWord(String oldWord, String newWord) {
+    	ensureWordList();
+		ArrayList<String> wordList2 = new ArrayList<String>(wordList); 
+		wordList2.addAll(wordList);
+		int count = 0;
+	
+		for(int i = 0; i < wordList2.size() - 1; i++) {
+			if(wordList2.get(i).equals(oldWord)) {
+				wordList2.remove(i);
+				wordList2.add(i, newWord);
+				count++;		
+			}
+		}		
+		System.out.println(wordList2);	
+		System.out.println("\"" + oldWord + "\" was replaced with \"" + newWord + "\" " + count  + " times!");
+		
+	}
+    
+    // Returns a random word from wordList
+    public String randomWord() {
+    	ensureWordList();
+	    Random rand = new Random();
+	    String randWord = wordList.get(rand.nextInt(wordList.size()));
+	    return randWord;
+    }
 }

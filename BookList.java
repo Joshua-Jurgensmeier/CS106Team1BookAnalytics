@@ -33,19 +33,22 @@ public class BookList {
 		titleSet.clear();
 	}
 	
+	// Used to ensure that a book isn't added multiple times.
 	public boolean contains(Book book) {
 		return titleSet.contains(book.getTitle());
 	}
 	
+	// Displays each book and its number
 	public String toString() {
 		String output = "";
 		for(int i = 0; i < books.size(); i++) {
-			output += "\n" + i + ") " + books.get(i).getTitle();
+			output += "\n" + i + ") " + books.get(i).getTitle() + " by " + books.get(i).getAuthor();
 		}
 		return output;
 	}
 	
-	// Put methods for calling methods on books below.
+	// These methods call the respective method of each book object in the list
+	// and display the result.
 	public void printTotalWordCount() {
 		System.out.println("# total words");
 		for(Book b : books) {
@@ -68,6 +71,22 @@ public class BookList {
 	}
 	
 	public void printWordCount(String search) {
-		
+		System.out.println("# times '" + search + "' appears in book");
+		for(Book b : books) {
+    		System.out.println(b.countWord(search) + "\t|\t" + b.getTitle());
+    	}
+	}
+	
+	public void replace(String oldWord, String newWord) {
+		for(Book b : books) {
+    		b.replaceWord(oldWord, newWord);
+    	}
+	}
+	
+	public void printRandomWord() {
+		System.out.println("Random word from book");
+		for(Book b : books) {
+    		System.out.println(b.randomWord() + "\t|\t" + b.getTitle());
+    	}
 	}
 }
