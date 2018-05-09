@@ -7,9 +7,9 @@ public class Book {
 	private String author;
 	private File bookFile;
 	
-	public HashSet<String> wordSet;
-	public HashMap<String, Integer> wordCount;
-	public ArrayList<String> wordList;
+	private HashSet<String> wordSet;
+	private HashMap<String, Integer> wordCount;
+	private ArrayList<String> wordList;
 	
 	public Book(File bookFile) {
 		// Data structures are not generated until they are needed.
