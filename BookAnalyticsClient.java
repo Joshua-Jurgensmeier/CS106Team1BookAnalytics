@@ -29,9 +29,9 @@ public class BookAnalyticsClient {
 		
 		// Print greeting and basic instructions
 		System.out.println("Welcome to Book Analytics: Answering your questions since 2018.\n"
-				+ "1) Type 'list all' to see available books and their numbers\n"
-				+ "2) Add a book to the selection with 'select #'\n"
-				+ "3) Try typing 'total' to get the total word count of selected books\n"
+				+ "* Type 'list all' to see available books and their numbers\n"
+				+ "* Add a book to the selection with 'add #'\n"
+				+ "* Try typing 'total' to get the total word count of selected books\n"
 				+ "Type 'help' for a complete list of commands.");
 		
 		//Main loop while user does not want to quit

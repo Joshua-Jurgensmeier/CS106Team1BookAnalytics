@@ -102,7 +102,6 @@ public class Book {
 						wordCount.put(word, 1);
 					}
 				}
-				System.out.println(wordCount);
 			} else {
 				// Generate wordCount from scanner
 				Scanner bookScanner = getScannerAtFirstLine(); 
